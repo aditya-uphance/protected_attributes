@@ -3,7 +3,7 @@ module ActiveRecord
     class Association
       undef :build_record
 
-      def build_record(attributes, options)
+      def build_record(attributes, options = {})
         reflection.build_association(attributes, options) do |record|
           attributes = create_scope.except(*(record.changed - [reflection.foreign_key]))
           record.assign_attributes(attributes, without_protection: true)
@@ -18,11 +18,11 @@ module ActiveRecord
       undef :create
       undef :create!
 
-      def build(attributes = {}, options = {}, &block)
+      def build(attributes = {}, &block)
         if attributes.is_a?(Array)
-          attributes.collect { |attr| build(attr, options, &block) }
+          attributes.collect { |attr| build(attr, &block) }
         else
-          add_to_target(build_record(attributes, options)) do |record|
+          add_to_target(build_record(attributes)) do |record|
             yield(record) if block_given?
           end
         end
