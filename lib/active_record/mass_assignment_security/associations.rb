@@ -45,7 +45,7 @@ module ActiveRecord
           attributes.collect { |attr| create_record(attr, raise, &block) }
         else
           transaction do
-            add_to_target(build_record(attributes, options)) do |record|
+            add_to_target(build_record(attributes)) do |record|
               yield(record) if block_given?
               insert_record(record, true, raise)
             end
