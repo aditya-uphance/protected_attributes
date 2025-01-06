@@ -38,11 +38,11 @@ module ActiveRecord
         #   User.create([{ :first_name => 'Jamie' }, { :first_name => 'Jeremy' }]) do |u|
         #     u.is_admin = false
         #   end
-        def create(attributes = nil, options = {}, &block)
+        def create(attributes = nil, &block)
           if attributes.is_a?(Array)
-            attributes.collect { |attr| create(attr, options, &block) }
+            attributes.collect { |attr| create(attr, &block) }
           else
-            object = new(attributes, options, &block)
+            object = new(attributes, &block)
             object.save
             object
           end

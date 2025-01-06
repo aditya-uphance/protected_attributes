@@ -28,12 +28,12 @@ module ActiveRecord
         end
       end
 
-      def create(attributes = {}, options = {}, &block)
-        create_record(attributes, options, &block)
+      def create(attributes = {}, &block)
+        create_record(attributes, &block)
       end
 
-      def create!(attributes = {}, options = {}, &block)
-        create_record(attributes, options, true, &block)
+      def create!(attributes = {}, &block)
+        create_record(attributes, true, &block)
       end
 
       def create_record(attributes, options, raise = false, &block)
@@ -60,17 +60,17 @@ module ActiveRecord
       undef :create
       undef :create!
 
-      def build(attributes = {}, options = {}, &block)
-        @association.build(attributes, options, &block)
+      def build(attributes = {}, &block)
+        @association.build(attributes, &block)
       end
       alias_method :new, :build
 
-      def create(attributes = {}, options = {}, &block)
-        @association.create(attributes, options, &block)
+      def create(attributes = {}, &block)
+        @association.create(attributes, &block)
       end
 
-      def create!(attributes = {}, options = {}, &block)
-        @association.create!(attributes, options, &block)
+      def create!(attributes = {}, &block)
+        @association.create!(attributes, &block)
       end
     end
 
