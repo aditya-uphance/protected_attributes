@@ -36,13 +36,13 @@ module ActiveRecord
         create_record(attributes, true, &block)
       end
 
-      def create_record(attributes, options, raise = false, &block)
+      def create_record(attributes, raise = false, &block)
         unless owner.persisted?
           raise ActiveRecord::RecordNotSaved, "You cannot call create unless the parent is saved"
         end
 
         if attributes.is_a?(Array)
-          attributes.collect { |attr| create_record(attr, options, raise, &block) }
+          attributes.collect { |attr| create_record(attr, raise, &block) }
         else
           transaction do
             add_to_target(build_record(attributes, options)) do |record|
@@ -124,12 +124,12 @@ module ActiveRecord
       undef :create!
       undef :build
 
-      def create(attributes = {}, options = {}, &block)
-        create_record(attributes, options, &block)
+      def create(attributes = {}, &block)
+        create_record(attributes, &block)
       end
 
-      def create!(attributes = {}, options = {}, &block)
-        create_record(attributes, options, true, &block)
+      def create!(attributes = {}, &block)
+        create_record(attributes, true, &block)
       end
 
       def build(attributes = {}, options = {})
