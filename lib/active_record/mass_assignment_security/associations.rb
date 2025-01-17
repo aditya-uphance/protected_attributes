@@ -79,7 +79,7 @@ module ActiveRecord
 
       private
 
-        def build_record(attributes, options={})
+        def build_record(attributes)
           inverse = source_reflection.inverse_of
           target = through_association.target
 
@@ -87,7 +87,7 @@ module ActiveRecord
             attributes[inverse.foreign_key] = target.id
           end
 
-          super(attributes, options)
+          super(attributes)
         end
     end
 
@@ -95,10 +95,10 @@ module ActiveRecord
       undef :build_record
       undef :options_for_through_record if respond_to?(:options_for_through_record, false)
 
-      def build_record(attributes, options = {})
+      def build_record(attributes)
         ensure_not_nested
 
-        record = super(attributes, options)
+        record = super(attributes)
 
         inverse = source_reflection.inverse_of
         if inverse
@@ -132,15 +132,15 @@ module ActiveRecord
         create_record(attributes, true, &block)
       end
 
-      def build(attributes = {}, options = {})
-        record = build_record(attributes, options)
+      def build(attributes = {})
+        record = build_record(attributes)
         yield(record) if block_given?
         set_new_record(record)
         record
       end
 
-      def create_record(attributes, options = {}, raise_error = false)
-        record = build_record(attributes, options)
+      def create_record(attributes, raise_error = false)
+        record = build_record(attributes)
         yield(record) if block_given?
         saved = record.save
         set_new_record(record)
