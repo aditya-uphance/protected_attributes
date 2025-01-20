@@ -57,11 +57,11 @@ module ActiveRecord
       # If no +:as+ option is supplied then the +:default+ role will be used.
       # If you want to bypass the forbidden attributes protection then you can do so using
       # the +:without_protection+ option.
-      def update(attributes, options = {})
+      def update(attributes)
         # The following transaction covers any possible database side-effects of the
         # attributes assignment. For example, setting the IDs of a child collection.
         with_transaction_returning_status do
-          assign_attributes(attributes, options)
+          assign_attributes(attributes)
           save
         end
       end
@@ -69,11 +69,11 @@ module ActiveRecord
 
       # Updates its receiver just like +update_attributes+ but calls <tt>save!</tt> instead
       # of +save+, so an exception is raised if the record is invalid.
-      def update!(attributes, options = {})
+      def update!(attributes)
         # The following transaction covers any possible database side-effects of the
         # attributes assignment. For example, setting the IDs of a child collection.
         with_transaction_returning_status do
-          assign_attributes(attributes, options)
+          assign_attributes(attributes)
           save!
         end
       end
